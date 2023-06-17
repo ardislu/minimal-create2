@@ -18,7 +18,7 @@ await ethereum.request({
 });
 ```
 
-`create2-deployment.evm` contains bytecode that deploys `create2.evm`. `create2.evm` is a minimal smart contract written in EVM assembly which expects a 32-byte salt and arbitrary bytecode in its calldata and deploys the bytecode using the `CREATE2` opcode.
+`create2-deployment.evm` contains bytecode that deploys `create2.evm`. `create2.evm` is a minimal smart contract written in EVM assembly which expects a 32-byte salt and arbitrary bytecode in the calldata passed to it and deploys the bytecode using the `CREATE2` opcode.
 
 **Important**: If you want the same `CREATE2` contract address *across chains*, you should use a fresh EOA with no prior transactions to create this deployment factory. Otherwise, the deployment factories will have different addresses and will output different `CREATE2` addresses.
 
