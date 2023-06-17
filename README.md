@@ -1,10 +1,12 @@
 # minimal-create2
 
-This is the minimal amount of code required to mine a smart contract address using `CREATE2`.
+This is the minimal amount of code required to mine a smart contract address using [`CREATE2`](https://eips.ethereum.org/EIPS/eip-1014).
 
 ## Create the `CREATE2` deployment factory
 
-Create a new smart contract with the minimum amount of code required to call `CREATE2` by pasting this code into DevTools (assuming Metamask is installed):
+The `CREATE2` opcode can only be called by a smart contract. So to use `CREATE2`, you must first deploy a minimal smart contract that calls this opcode.
+
+Here's the code to create a new smart contract that calls `CREATE2`. Paste this code into DevTools (assuming MetaMask is installed):
 
 ```javascript
 await ethereum.request({
@@ -22,7 +24,7 @@ await ethereum.request({
 
 ## Mine the desired `CREATE2` address
 
-Simple example of predicting the `CREATE2` address:
+Here's a basic example of predicting the `CREATE2` address:
 
 ```javascript
 const ethers = await import('https://cdn.jsdelivr.net/npm/ethers@6.6.0/+esm');
@@ -40,7 +42,7 @@ ethers.getCreate2Address(factory, salt, ethers.keccak256(bytecode));
 // 0xD7ada5e4De61a3c14994046d349d90F7ae693433
 ```
 
-Example of mining a specific smart contract address by testing different `salt` values:
+And here's how to mine a specific smart contract address by testing different `salt` values:
 
 ```javascript
 const ethers = await import('https://cdn.jsdelivr.net/npm/ethers@6.6.0/+esm');
@@ -48,11 +50,13 @@ const ethers = await import('https://cdn.jsdelivr.net/npm/ethers@6.6.0/+esm');
 // The smart contract you deployed in "Create the CREATE2 deployment factory"
 const factory = '0x8137a81A74E2a9d510898B2e3E307e7C33eBad8A';
 
-// Must be the entire creation bytecode, including constructor arguments
+// Must be the entire creation bytecode for the smart contract you want to deploy, including constructor arguments
 const bytecode = '0x385f818153f3'; // minimal-contract-deployment.evm, compiled
 
+// Simple regex to match the desired CREATE2 address
 const requirement = /^0xbeef/;
 
+// WARNING: this loop may take a long time to complete depending on the complexity of the requirement
 let salt = 1;
 while (true) {
   const paddedSalt = `0x${salt.toString(16).padStart(64, '0')}`;
