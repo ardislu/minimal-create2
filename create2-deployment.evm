@@ -1,0 +1,12 @@
+;; Store create2.evm compiled bytecode into memory
+PUSH 0x365f5f375f516020360360205ff5 
+PUSH0
+MSTORE
+
+;; Return create2.evm compiled bytecode
+PUSH 14
+PUSH 18
+RETURN
+
+;; This contract, compiled:
+;; 6d365f5f375f516020360360205ff55f52600e6012f3

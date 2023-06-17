@@ -1,0 +1,23 @@
+;; Copy calldata to memory offset 0
+CALLDATASIZE
+PUSH0
+PUSH0
+CALLDATACOPY
+
+
+;; First 32 bytes of calldata is the salt
+PUSH0
+MLOAD
+
+;; Remaining calldata is the creation bytecode
+PUSH 32
+CALLDATASIZE
+SUB
+
+;; Call CREATE2
+PUSH 32
+PUSH0
+CREATE2
+
+;; This contract, compiled:
+;; 365f5f375f516020360360205ff5

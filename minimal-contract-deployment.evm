@@ -1,0 +1,13 @@
+;; This is the minimal bytecode that can be used to deploy a new smart contract
+CODESIZE
+PUSH0
+DUP2
+DUP2
+MSTORE8
+RETURN
+
+;; This smart contract, compiled:
+;; 385f818153f3
+
+;; When sent to EVM, this smart contract will deploy a new smart contract with bytecode:
+;; 060000000000
