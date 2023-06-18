@@ -52,6 +52,7 @@ const factory = '0x8137a81A74E2a9d510898B2e3E307e7C33eBad8A';
 
 // Must be the entire creation bytecode for the smart contract you want to deploy, including constructor arguments
 const bytecode = '0x385f818153f3'; // minimal-contract-deployment.evm, compiled
+const hashedBytecode = ethers.keccak256(bytecode); // Hash it once and save for efficiency
 
 // Simple regex to match the desired CREATE2 address
 const requirement = /^0xbeef/;
@@ -60,7 +61,7 @@ const requirement = /^0xbeef/;
 let salt = 1;
 while (true) {
   const paddedSalt = `0x${salt.toString(16).padStart(64, '0')}`;
-  const addr = ethers.getCreate2Address(factory, paddedSalt, ethers.keccak256(bytecode));
+  const addr = ethers.getCreate2Address(factory, paddedSalt, hashedBytecode);
   if (requirement.test(addr)) {
     console.log({factory, paddedSalt, bytecode, addr});
     break;
