@@ -1,5 +1,5 @@
 ;; Store create2.evm compiled bytecode into memory
-PUSH 0x365f5f375f516020360360205ff5 
+PUSH 0x365f5f375f516020360360205ff5
 PUSH0
 MSTORE
 

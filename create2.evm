@@ -4,7 +4,6 @@ PUSH0
 PUSH0
 CALLDATACOPY
 
-
 ;; First 32 bytes of calldata is the salt
 PUSH0
 MLOAD
