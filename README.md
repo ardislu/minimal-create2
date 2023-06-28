@@ -27,7 +27,7 @@ await ethereum.request({
 Here's a basic example of predicting the `CREATE2` address:
 
 ```javascript
-const ethers = await import('https://cdn.jsdelivr.net/npm/ethers@6.6.0/+esm');
+const ethers = await import('https://cdn.jsdelivr.net/npm/ethers@6.6.1/+esm');
 
 // The smart contract you deployed in "Create the CREATE2 deployment factory"
 const factory = '0x8137a81A74E2a9d510898B2e3E307e7C33eBad8A';
@@ -45,7 +45,7 @@ ethers.getCreate2Address(factory, salt, ethers.keccak256(bytecode));
 And here's how to mine a specific smart contract address by testing different `salt` values:
 
 ```javascript
-const ethers = await import('https://cdn.jsdelivr.net/npm/ethers@6.6.0/+esm');
+const ethers = await import('https://cdn.jsdelivr.net/npm/ethers@6.6.1/+esm');
 
 // The smart contract you deployed in "Create the CREATE2 deployment factory"
 const factory = '0x8137a81A74E2a9d510898B2e3E307e7C33eBad8A';
