@@ -95,3 +95,7 @@ await ethereum.request({
 Block explorers such as Etherscan may interpret this payload as a call to a Solidity function with the ABI selector `0x00000000`. As of July 2023, Etherscan's database has the `0x00000000` selector mapped to a function called `fulfillBasicOrder_efficient_6GL6yc(tuple parameters)`.
 
 Since the `CREATE2` factory smart contract was written directly in EVM assembly and not Solidity, the factory has no conception of ABI. To have block explorers display a different function in their UI, you can set the first 4 bytes of the salt to some hardcoded value while using the last 28 bytes to mine the desired address.
+
+## Similar projects
+
+- [Seaport (OpenSea)'s CREATE2 Factory](https://github.com/ProjectOpenSea/seaport/blob/main/docs/Deployment.md)
