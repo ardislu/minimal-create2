@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:,">
+  <title>minimal-create2</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
+      background: hsl(216deg 100% 95%);
+      color: hsl(216deg 100% 5%);
+      display: grid;
+      place-items: center;
+      block-size: 100dvb;
+      margin-block: 0;
+
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      inline-size: min(80ch, 100dvi - 32px);
+    }
+
+    label,
+    button {
+      align-self: start;
+    }
+
+    input {
+      font-size: 1rem;
+      inline-size: 100%;
+      padding: 4px;
+      border-radius: 4px;
+      border: hsl(216deg 100% 5%);
+    }
+
+    button {
+      font-size: 1rem;
+      padding: 4px 8px;
+      cursor: pointer;
+    }
+
+    output {
+      inline-size: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <form>
+      <label for="factory"><code>CREATE2</code> factory</label>
+      <input id="factory" name="factory" placeholder="0x8137a81A74E2a9d510898B2e3E307e7C33eBad8A" title="Enter a valid Ethereum address" pattern="^0x[0-9a-fA-F]{40}" required autocomplete="off" data-1p-ignore data-lpignore>
+
+      <label for="bytecode">Creation bytecode</label>
+      <input id="bytecode" name="bytecode" placeholder="0x385f818153f3" title="Enter valid EVM bytecode" pattern="^(0x)?[0-9a-fA-F]+" required autocomplete="off" data-1p-ignore data-lpignore>
+
+      <label for="requirement">Requirement (regex)</label>
+      <input id="requirement" name="requirement" placeholder="/^0xbeef/" title="Enter a valid regular expression" pattern="^\/.+\/$" required autocomplete="off" data-1p-ignore data-lpignore>
+
+      <label for="salt">Initial salt (optional)</label>
+      <input id="salt" name="salt" placeholder="123456" title="Enter a number (optional)" pattern="[0-9]*" autocomplete="off" data-1p-ignore data-lpignore>
+
+      <button>Submit</button>
+
+      <output></output>
+    </form>
+  </main>
+
+  <script type="module">
+    const ethers = await import('https://cdn.jsdelivr.net/npm/ethers@6.6.6/+esm');
+
+    document.querySelector('form').addEventListener('submit', e => {
+      e.preventDefault();
+      const { factory, bytecode, requirement: requirementString, salt: saltString } = Object.fromEntries(new FormData(e.target));
+
+      const hashedBytecode = ethers.keccak256(bytecode); // Hash it once and save for efficiency
+      const requirement = RegExp(requirementString.slice(1, -1));
+      let salt = BigInt(saltString); // Converted to 0n if blank
+
+      while (true) {
+        const paddedSalt = `0x${salt.toString(16).padStart(64, '0')}`;
+        const addr = ethers.getCreate2Address(factory, paddedSalt, hashedBytecode);
+        if (requirement.test(addr)) {
+          document.querySelector('output').innerHTML = `<pre>${JSON.stringify({ factory, paddedSalt, bytecode, addr }, null, 2)}</pre>`;
+          break;
+        }
+        salt++;
+      }
+    });
+  </script>
+</body>
+
+</html>
