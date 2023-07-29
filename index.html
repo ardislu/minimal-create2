@@ -89,21 +89,37 @@
 
     document.querySelector('form').addEventListener('submit', e => {
       e.preventDefault();
-      const { factory, bytecode, requirement: requirementString, salt: saltString } = Object.fromEntries(new FormData(e.target));
+      const { factory: factoryString, bytecode: bytecodeString, requirement: requirementString, salt: saltString } = Object.fromEntries(new FormData(e.target));
 
-      const hashedBytecode = keccak256(strToArr(bytecode)); // Hash it once and save for efficiency
+      const factory = strToArr(factoryString);
+      const hashedBytecode = keccak256(strToArr(bytecodeString)); // Hash it once and save for efficiency
       const requirement = RegExp(requirementString.slice(1, -1));
-      let salt = BigInt(saltString); // Converted to 0n if blank
 
-      while (true) {
-        const paddedSalt = `0x${salt.toString(16).padStart(64, '0')}`;
-        const addrBytes = new Uint8Array([0xff, ...strToArr(factory), ...strToArr(paddedSalt), ...hashedBytecode]);
-        const addr = `0x${arrToStr(keccak256(addrBytes)).substring(26)}`;
-        if (requirement.test(addr)) {
-          document.querySelector('output').innerHTML = `<pre>${JSON.stringify({ factory, paddedSalt, bytecode, addr }, null, 2)}</pre>`;
-          break;
-        }
-        salt++;
+      // Use SharedArrayBuffer and Atomics for multi-threading 
+      const saltSab = new SharedArrayBuffer(32);
+
+      // Set initial salt; allows "saving" mining progress by resuming mining from last salt.
+      // Hardcoded to use the last bytes so that the first bytes may be used for vanity function signatures.
+      const saltIndex = 3;
+      new BigUint64Array(saltSab)[saltIndex] = BigInt(saltString);
+
+      const workers = [];
+      for (let i = 0; i < navigator.hardwareConcurrency; i++) {
+        const w = new Worker('/worker.js', { type: 'module' });
+        workers.push(w);
+        w.postMessage({ factory, hashedBytecode, requirement, saltSab });
+        w.addEventListener('message', e => {
+          workers.forEach(w => w.terminate());
+
+          const { newSaltArray, addr } = e.data;
+          const output = {
+            factory: factoryString,
+            bytecode: bytecodeString,
+            salt: arrToStr(newSaltArray),
+            addr
+          }
+          document.querySelector('output').innerHTML = `<pre>${JSON.stringify(output, null, 2)}</pre>`;
+        });
       }
     });
   </script>
