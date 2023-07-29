@@ -77,19 +77,28 @@
   </main>
 
   <script type="module">
-    const ethers = await import('https://cdn.jsdelivr.net/npm/ethers@6.6.6/+esm');
+    import { keccak256 } from '/keccak256.js';
+
+    function strToArr(str) {
+      return Uint8Array.from(str.substring(2).match(/.{2}/g), v => parseInt(v, 16));
+    }
+
+    function arrToStr(arr) {
+      return `0x${[...arr].map(v => v.toString(16).padStart(2, '0')).join('')}`;
+    }
 
     document.querySelector('form').addEventListener('submit', e => {
       e.preventDefault();
       const { factory, bytecode, requirement: requirementString, salt: saltString } = Object.fromEntries(new FormData(e.target));
 
-      const hashedBytecode = ethers.keccak256(bytecode); // Hash it once and save for efficiency
+      const hashedBytecode = keccak256(strToArr(bytecode)); // Hash it once and save for efficiency
       const requirement = RegExp(requirementString.slice(1, -1));
       let salt = BigInt(saltString); // Converted to 0n if blank
 
       while (true) {
         const paddedSalt = `0x${salt.toString(16).padStart(64, '0')}`;
-        const addr = ethers.getCreate2Address(factory, paddedSalt, hashedBytecode);
+        const addrBytes = new Uint8Array([0xff, ...strToArr(factory), ...strToArr(paddedSalt), ...hashedBytecode]);
+        const addr = `0x${arrToStr(keccak256(addrBytes)).substring(26)}`;
         if (requirement.test(addr)) {
           document.querySelector('output').innerHTML = `<pre>${JSON.stringify({ factory, paddedSalt, bytecode, addr }, null, 2)}</pre>`;
           break;
