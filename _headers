@@ -1,0 +1,4 @@
+# Secure context is required to use SharedArrayBuffer
+/*
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: require-corp
