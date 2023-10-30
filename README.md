@@ -15,5 +15,6 @@ ws --cors.opener-policy same-origin --cors.embedder-policy require-corp
 ## Similar projects
 
 - [Seaport (OpenSea)'s CREATE2 Factory](https://github.com/ProjectOpenSea/seaport/blob/main/docs/Deployment.md)
-- [deterministic-deployment-proxy](https://github.com/Zoltu/deterministic-deployment-proxy)
+- [Zoltu's deterministic-deployment-proxy](https://github.com/Zoltu/deterministic-deployment-proxy)
+- [Arachnid's deterministic-deployment-proxy](https://github.com/Arachnid/deterministic-deployment-proxy)
 - [create2deployer](https://github.com/pcaversaccio/create2deployer)
