@@ -1,5 +1,8 @@
 # minimal-create2
 
+> [!NOTE]<br>
+> In practice, you should use a deterministic deployment to create the `CREATE2` factory. This way you can be sure the same factory address is available on all across networks.
+
 This is a minimal web app to mine a specific smart contract address using [`CREATE2`](https://eips.ethereum.org/EIPS/eip-1014).
 
 To reproduce the mining manually, see [manual.md](/manual.md).
