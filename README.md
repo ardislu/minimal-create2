@@ -21,3 +21,4 @@ ws --cors.opener-policy same-origin --cors.embedder-policy require-corp
 - [Zoltu's deterministic-deployment-proxy](https://github.com/Zoltu/deterministic-deployment-proxy)
 - [Arachnid's deterministic-deployment-proxy](https://github.com/Arachnid/deterministic-deployment-proxy)
 - [create2deployer](https://github.com/pcaversaccio/create2deployer)
+- [CreateX](https://github.com/pcaversaccio/createx)
