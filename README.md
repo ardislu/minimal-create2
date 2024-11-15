@@ -1,7 +1,7 @@
 # minimal-create2
 
 > [!NOTE]<br>
-> In practice, you should use a deterministic deployment to create the `CREATE2` factory. This way you can deploy the same factory address across networks.
+> In practice, you should use a deterministic deployment ([example](https://github.com/Arachnid/deterministic-deployment-proxy)) to create the `CREATE2` factory. This way you can deploy the same factory address across networks.
 
 This is a minimal web app to mine a specific smart contract address using [`CREATE2`](https://eips.ethereum.org/EIPS/eip-1014).
 
