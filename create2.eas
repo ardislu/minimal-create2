@@ -1,22 +1,22 @@
 ;; Copy calldata to memory offset 0
-CALLDATASIZE
-PUSH0
-PUSH0
-CALLDATACOPY
+CALLDATASIZE ; [size]
+PUSH0        ; [offset, size]
+PUSH0        ; [destOffset, offset, size]
+CALLDATACOPY ; []
 
 ;; First 32 bytes of calldata is the salt
-PUSH0
-MLOAD
+PUSH0 ; [offset]
+MLOAD ; [salt]
 
 ;; Remaining calldata is the creation bytecode
-PUSH 32
-CALLDATASIZE
-SUB
+PUSH 32      ; [b, salt]
+CALLDATASIZE ; [a, b, salt]
+SUB          ; [size, salt]
 
 ;; Call CREATE2
-PUSH 32
-PUSH0
-CREATE2
+PUSH 32 ; [offset, size, salt]
+PUSH0   ; [value, offset, size, salt]
+CREATE2 ; []
 
-;; This contract, compiled:
-;; 365f5f375f516020360360205ff5
+;;; This contract, compiled:
+;;; 365f5f375f516020360360205ff5
