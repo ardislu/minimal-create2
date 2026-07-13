@@ -7,6 +7,8 @@ This is a minimal web app to mine a specific smart contract address using [`CREA
 
 To reproduce the mining manually, see [manual.md](/manual.md).
 
+Code repository mirrors: [GitHub](https://github.com/ardislu/minimal-create2), [Codeberg](https://codeberg.org/ardislu/minimal-create2), [git.ardis.lu](https://git.ardis.lu/minimal-create2)
+
 ## Local development
 
 The project must be hosted in a [secure context](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts) for [`SharedArrayBuffer`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer) to work. Use [`local-web-server`](https://www.npmjs.com/package/local-web-server) to set the appropriate headers:
