@@ -1,9 +1,9 @@
-;; Store create2.evm compiled bytecode into memory
+;; Store create2.eas compiled bytecode into memory
 PUSH 0x365f5f375f516020360360205ff5 ; [value]
 PUSH0                               ; [offset, value]
 MSTORE                              ; []
 
-;; Return create2.evm compiled bytecode
+;; Return create2.eas compiled bytecode
 PUSH 14 ; [size]
 PUSH 18 ; [offset, size]
 RETURN  ; []

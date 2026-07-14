@@ -13,12 +13,12 @@ await ethereum.request({
   method: 'eth_sendTransaction',
   params: [{
     from: (await ethereum.request({ method: 'eth_requestAccounts' }))[0], // Your currently active MetaMask address
-    data: '0x6d365f5f375f516020360360205ff55f52600e6012f3' // create2-deployment.evm, compiled
+    data: '0x6d365f5f375f516020360360205ff55f52600e6012f3' // create2-deployment.eas, compiled
   }]
 });
 ```
 
-`create2-deployment.evm` contains bytecode that deploys `create2.evm`. `create2.evm` is a minimal smart contract written in EVM assembly which expects a 32-byte salt and arbitrary bytecode in the calldata passed to it and deploys the bytecode using the `CREATE2` opcode.
+`create2-deployment.eas` contains bytecode that deploys `create2.eas`. `create2.eas` is a minimal smart contract written in EVM assembly which expects a 32-byte salt and arbitrary bytecode in the calldata passed to it and deploys the bytecode using the `CREATE2` opcode.
 
 **Important**: If you want the same `CREATE2` contract address *across chains*, you should use a fresh EOA with no prior transactions to create this deployment factory. Otherwise, the deployment factories will have different addresses and will output different `CREATE2` addresses.
 
@@ -36,7 +36,7 @@ const factory = '0x8137a81A74E2a9d510898B2e3E307e7C33eBad8A';
 const salt = '0x0000000000000000000000000000000000000000000000000000000000000123';
 
 // Must be the entire creation bytecode, including constructor arguments
-const bytecode = '0x385f818153f3'; // minimal-contract-deployment.evm, compiled
+const bytecode = '0x385f818153f3'; // minimal-contract-deployment.eas, compiled
 
 ethers.getCreate2Address(factory, salt, ethers.keccak256(bytecode));
 // 0xD7ada5e4De61a3c14994046d349d90F7ae693433
@@ -51,7 +51,7 @@ const ethers = await import('https://cdn.jsdelivr.net/npm/ethers@6.7.1/+esm');
 const factory = '0x8137a81A74E2a9d510898B2e3E307e7C33eBad8A';
 
 // Must be the entire creation bytecode for the smart contract you want to deploy, including constructor arguments
-const bytecode = '0x385f818153f3'; // minimal-contract-deployment.evm, compiled
+const bytecode = '0x385f818153f3'; // minimal-contract-deployment.eas, compiled
 const hashedBytecode = ethers.keccak256(bytecode); // Hash it once and save for efficiency
 
 // Simple regex to match the desired CREATE2 address
