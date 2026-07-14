@@ -36,10 +36,10 @@ const factory = '0x8137a81A74E2a9d510898B2e3E307e7C33eBad8A';
 const salt = '0x0000000000000000000000000000000000000000000000000000000000000123';
 
 // Must be the entire creation bytecode, including constructor arguments
-const bytecode = '0x385f818153f3'; // minimal-contract-deployment.eas, compiled
+const bytecode = '0x385f815f53f3'; // minimal-contract-deployment.eas, compiled
 
 ethers.getCreate2Address(factory, salt, ethers.keccak256(bytecode));
-// 0xD7ada5e4De61a3c14994046d349d90F7ae693433
+// 0xd81613ac8a3EADbf8c88C5cf285E1fDb38541813
 ```
 
 And here's how to mine a specific smart contract address by testing different `salt` values:
@@ -51,7 +51,7 @@ const ethers = await import('https://cdn.jsdelivr.net/npm/ethers@6.7.1/+esm');
 const factory = '0x8137a81A74E2a9d510898B2e3E307e7C33eBad8A';
 
 // Must be the entire creation bytecode for the smart contract you want to deploy, including constructor arguments
-const bytecode = '0x385f818153f3'; // minimal-contract-deployment.eas, compiled
+const bytecode = '0x385f815f53f3'; // minimal-contract-deployment.eas, compiled
 const hashedBytecode = ethers.keccak256(bytecode); // Hash it once and save for efficiency
 
 // Simple regex to match the desired CREATE2 address
@@ -68,7 +68,7 @@ while (true) {
   }
   salt++;
 }
-// {factory: '0x8137a81A74E2a9d510898B2e3E307e7C33eBad8A', paddedSalt: '0x000000000000000000000000000000000000000000000000000000000005c342', bytecode: '0x385f818153f3', addr: '0xbeef7906063D950306868AF5af36955015110f84'}
+// {factory: '0x8137a81A74E2a9d510898B2e3E307e7C33eBad8A', paddedSalt: '0x0000000000000000000000000000000000000000000000000000000000063f86', bytecode: '0x385f815f53f3', addr: '0xbeefe9163827eaa19a74a33d57168867fd240F9e'}
 ```
 
 ## Using the mined `salt`
@@ -78,8 +78,8 @@ Once a desired `CREATE2` address has been mined, you can deploy it by sending th
 ```javascript
 // Same parameters from "Mine the desired CREATE2 address"
 const factory = '8137a81A74E2a9d510898B2e3E307e7C33eBad8A'; // Drop "0x" prefix
-const salt = '000000000000000000000000000000000000000000000000000000000005c342'; // Drop "0x" prefix
-const bytecode = '385f818153f3'; // Drop "0x" prefix
+const salt = '0000000000000000000000000000000000000000000000000000000000063f86'; // Drop "0x" prefix
+const bytecode = '385f815f53f3'; // Drop "0x" prefix
 
 await ethereum.request({
   method: 'eth_sendTransaction',
@@ -89,7 +89,7 @@ await ethereum.request({
     data: `0x${salt}${bytecode}`
   }]
 });
-// Smart contract is deployed as 0xbeef7906063D950306868AF5af36955015110f84, as predicted
+// Smart contract is deployed as 0xbeefe9163827eaa19a74a33d57168867fd240F9e, as predicted
 ```
 
 Block explorers such as Etherscan may interpret this payload as a call to a Solidity function with the ABI selector `0x00000000`. As of July 2023, Etherscan's database has the `0x00000000` selector mapped to a function called `fulfillBasicOrder_efficient_6GL6yc(tuple parameters)`.

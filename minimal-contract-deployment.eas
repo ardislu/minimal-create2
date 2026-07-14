@@ -2,12 +2,12 @@
 CODESIZE ; [size]
 PUSH0    ; [offset, size]
 DUP2     ; [size, offset, size]
-DUP2     ; [offset, size, offset, size]
+PUSH0    ; [offset, size, offset, size]
 MSTORE8  ; [offset, size]
 RETURN   ; []
 
 ;;; This smart contract, compiled:
-;;; 385f818153f3
+;;; 385f815f53f3
 
 ;;; When sent to EVM, this smart contract will deploy a new smart contract with bytecode:
 ;;; 060000000000
