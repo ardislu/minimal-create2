@@ -1,7 +1,7 @@
 # minimal-create2
 
 > [!IMPORTANT]
-> [EIP-7997](https://eips.ethereum.org/EIPS/eip-7997) (targeting Glamsterdam in [November 2026](https://forkcast.org/upgrade/glamsterdam/)) will enshrine the [`0x4e59b44847b379578588920cA78FbF26c0B4956C` factory](https://github.com/Arachnid/deterministic-deployment-proxy) into the protocol. Meaning, you can just use `0x4e59b44847b379578588920cA78FbF26c0B4956C` to deploy your contracts instead of making your own factory.
+> [EIP-7997](https://eips.ethereum.org/EIPS/eip-7997) (scheduled for inclusion in [Glamsterdam](https://eips.ethereum.org/EIPS/eip-7773), targeting [December 2026](https://forkcast.org/schedule/)) will enshrine the [`0x4e59b44847b379578588920cA78FbF26c0B4956C` factory](https://github.com/Arachnid/deterministic-deployment-proxy) into the protocol. Meaning, you can just use `0x4e59b44847b379578588920cA78FbF26c0B4956C` to deploy your contracts instead of making your own factory.
 
 This is a minimal web app to mine a specific smart contract address using [`CREATE2`](https://eips.ethereum.org/EIPS/eip-1014).
 
